@@ -1,0 +1,87 @@
+plugins {
+    id 'java'
+    id 'jacoco'
+    id "info.solidsoft.pitest" version "1.4.5"
+    id "org.sonarqube" version "2.8"
+    id "maven-publish"
+    id "net.madeng.slack" version "0.0.22"
+}
+
+group 'jetbrains'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://mymavenrepo.com/repo/xGhGeR3JmlfoPe5GZgX2/'
+        credentials {
+            username 'myMavenRepo'
+            password '123456'
+        }
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+
+}
+
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.8
+
+            }
+        }
+
+    }
+}
+pitest {
+    targetTests  = ["com.test.*"]
+    targetClasses  = ["com.example.service.*"]
+
+}
+
+check.finalizedBy "jacocoTestReport","jacocoTestCoverageVerification","sonarqube"
+
+ task generateMatrixAPI (type:Copy) {
+    from('build/reports') {
+    into 'reports'}
+     from('build/docs') {
+         into 'docs'}
+     from('build/libs') {
+         into "libs"}
+     into "C:\\Users\\pc\\IdeaProjects\\MatrixRelease/Matrix_v_1.0"
+}
+
+generateMatrixAPI.mustRunAfter "build","javadoc"
+
+publishing {
+    repositories {
+        maven {
+            url 'https://mymavenrepo.com/repo/xGhGeR3JmlfoPe5GZgX2/'
+            credentials {
+                username 'myMavenRepo'
+                password '123456'
+            }
+        }
+    }
+    publications {
+        maven(MavenPublication) {
+            from components.java
+        }
+    }
+}
+generateMatrixAPI.finalizedBy publish
+
+slack {
+    webhookUrl 'https://hooks.slack.com/services/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'
+    message {
+        text = "Project is built newly and deployed"
+        channel = '#tpgradle'}
+}
+publish.finalizedBy publishToSlack

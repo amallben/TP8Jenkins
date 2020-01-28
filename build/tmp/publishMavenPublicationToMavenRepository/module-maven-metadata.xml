@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<metadata>
+  <groupId>jetbrains</groupId>
+  <artifactId>gradle-exemple</artifactId>
+  <versioning>
+    <latest>1.0-SNAPSHOT</latest>
+    <versions>
+      <version>1.0-SNAPSHOT</version>
+    </versions>
+    <lastUpdated>20191215102348</lastUpdated>
+  </versioning>
+</metadata>
