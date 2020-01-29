@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>MatrixMathematics.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gradle-exemple</a> &gt; <a href="index.source.html" class="el_package">com.example.service</a> &gt; <span class="el_source">MatrixMathematics.java</span></div><h1>MatrixMathematics.java</h1><pre class="source lang-java linenums">package com.example.service;
+
+import com.example.exception.NoSquareException;
+import com.example.model.Matrix;
+
+public class MatrixMathematics {
+
+	/**
+	 * This class a matrix utility class and cannot be instantiated.
+	 */
+	private MatrixMathematics(){}
+	
+	
+	/**
+	 * Determinant of a square matrix
+	 * The following function find the determinant in a recursively. 
+	 * @param matrix
+	 * @return
+	 * @throws NoSquareException
+	 */
+	public static double determinant(Matrix matrix) throws NoSquareException {
+<span class="pc bpc" id="L22" title="1 of 2 branches missed.">		if (!matrix.isSquare())</span>
+<span class="nc" id="L23">			throw new NoSquareException(&quot;matrix need to be square.&quot;);</span>
+<span class="fc bfc" id="L24" title="All 2 branches covered.">		if (matrix.size() == 1){</span>
+<span class="fc" id="L25">			return matrix.getValueAt(0, 0);</span>
+		}
+			
+<span class="fc bfc" id="L28" title="All 2 branches covered.">		if (matrix.size()==2) {</span>
+<span class="fc" id="L29">			return (matrix.getValueAt(0, 0) * matrix.getValueAt(1, 1)) - ( matrix.getValueAt(0, 1) * matrix.getValueAt(1, 0));</span>
+		}
+<span class="fc" id="L31">		double sum = 0.0;</span>
+<span class="fc bfc" id="L32" title="All 2 branches covered.">		for (int i=0; i&lt;matrix.getNcols(); i++) {</span>
+<span class="fc" id="L33">			sum += changeSign(i) * matrix.getValueAt(0, i) * determinant(createSubMatrix(matrix, 0, i));</span>
+		}
+<span class="fc" id="L35">		return sum;</span>
+	}
+
+	/**
+	 * Determine the sign; i.e. even numbers have sign + and odds -
+	 * @param i
+	 * @return
+	 */
+	private static int changeSign(int i) {
+<span class="fc bfc" id="L44" title="All 2 branches covered.">		if (i%2==0)</span>
+<span class="fc" id="L45">			return 1;</span>
+<span class="fc" id="L46">		return -1;</span>
+	}
+	/**
+	 * Creates a submatrix excluding the given row and column
+	 * @param matrix
+	 * @param excluding_row
+	 * @param excluding_col
+	 * @return
+	 */
+	public static Matrix createSubMatrix(Matrix matrix, int excluding_row, int excluding_col) {
+<span class="fc" id="L56">		Matrix mat = new Matrix(matrix.getNrows()-1, matrix.getNcols()-1);</span>
+<span class="fc" id="L57">		int r = -1;</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">		for (int i=0;i&lt;matrix.getNrows();i++) {</span>
+<span class="fc bfc" id="L59" title="All 2 branches covered.">			if (i==excluding_row)</span>
+<span class="fc" id="L60">				continue;</span>
+<span class="fc" id="L61">				r++;</span>
+<span class="fc" id="L62">				int c = -1;</span>
+<span class="fc bfc" id="L63" title="All 2 branches covered.">			for (int j=0;j&lt;matrix.getNcols();j++) {</span>
+<span class="fc bfc" id="L64" title="All 2 branches covered.">				if (j==excluding_col)</span>
+<span class="fc" id="L65">					continue;</span>
+<span class="fc" id="L66">				mat.setValueAt(r, ++c, matrix.getValueAt(i, j));</span>
+			}
+		}
+<span class="fc" id="L69">		return mat;</span>
+	}
+	
+	/**
+	 * The cofactor of a matrix
+	 * @param matrix
+	 * @return
+	 * @throws NoSquareException
+	 */
+	public static Matrix cofactor(Matrix matrix) throws NoSquareException {
+<span class="fc" id="L79">		Matrix mat = new Matrix(matrix.getNrows(), matrix.getNcols());</span>
+<span class="fc bfc" id="L80" title="All 2 branches covered.">		for (int i=0;i&lt;matrix.getNrows();i++) {</span>
+<span class="fc bfc" id="L81" title="All 2 branches covered.">			for (int j=0; j&lt;matrix.getNcols();j++) {</span>
+<span class="fc" id="L82">				mat.setValueAt(i, j, changeSign(i) * changeSign(j) * determinant(createSubMatrix(matrix, i, j)));</span>
+			}
+		}
+		
+<span class="fc" id="L86">		return mat;</span>
+	}
+
+
+	/**
+	 * Transpose of a matrix - Swap the columns with rows
+	 * @param matrix
+	 * @return
+	 */
+	public static Matrix transpose(Matrix matrix) {
+<span class="fc" id="L96">		Matrix transposedMatrix = new Matrix(matrix.getNcols(), matrix.getNrows());</span>
+<span class="fc bfc" id="L97" title="All 2 branches covered.">		for (int i=0;i&lt;matrix.getNrows();i++) {</span>
+<span class="fc bfc" id="L98" title="All 2 branches covered.">			for (int j=0;j&lt;matrix.getNcols();j++) {</span>
+<span class="fc" id="L99">				transposedMatrix.setValueAt(j, i, matrix.getValueAt(i, j));</span>
+			}
+		}
+<span class="fc" id="L102">		return transposedMatrix;</span>
+	}
+
+	/**
+	 * Inverse of a matrix - A-1 * A = I where I is the identity matrix
+	 * A matrix that have inverse is called non-singular or invertible. If the matrix does not have inverse it is called singular.
+	 * For a singular matrix the values of the inverted matrix are either NAN or Infinity
+	 * Only square matrices have inverse and the following method will throw exception if the matrix is not square.
+	 * @param matrix
+	 * @return
+	 * @throws NoSquareException
+	 */
+	public static Matrix inverse(Matrix matrix) throws NoSquareException {
+<span class="fc" id="L115">		return (transpose(cofactor(matrix)).multiplyByConstant(1.0/determinant(matrix)));</span>
+	}
+	
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>

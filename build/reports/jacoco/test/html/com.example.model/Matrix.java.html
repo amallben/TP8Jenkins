@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="fr"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Matrix.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">gradle-exemple</a> &gt; <a href="index.source.html" class="el_package">com.example.model</a> &gt; <span class="el_source">Matrix.java</span></div><h1>Matrix.java</h1><pre class="source lang-java linenums">package com.example.model;
+
+public class Matrix {
+
+	private int nrows;
+	private int ncols;
+	private double[][] data;
+
+<span class="fc" id="L9">	public Matrix(double[][] dat) {</span>
+<span class="fc" id="L10">		this.data = dat;</span>
+<span class="fc" id="L11">		this.nrows = dat.length;</span>
+<span class="fc" id="L12">		this.ncols = dat[0].length;</span>
+<span class="fc" id="L13">	}</span>
+
+<span class="fc" id="L15">	public Matrix(int nrow, int ncol) {</span>
+<span class="fc" id="L16">		this.nrows = nrow;</span>
+<span class="fc" id="L17">		this.ncols = ncol;</span>
+<span class="fc" id="L18">		data = new double[nrow][ncol];</span>
+<span class="fc" id="L19">	}</span>
+
+	public int getNrows() {
+<span class="fc" id="L22">		return nrows;</span>
+	}
+
+	public void setNrows(int nrows) {
+<span class="nc" id="L26">		this.nrows = nrows;</span>
+<span class="nc" id="L27">	}</span>
+
+	public int getNcols() {
+<span class="fc" id="L30">		return ncols;</span>
+	}
+
+	public void setNcols(int ncols) {
+<span class="nc" id="L34">		this.ncols = ncols;</span>
+<span class="nc" id="L35">	}</span>
+
+	public double[][] getValues() {
+<span class="fc" id="L38">		return data;</span>
+	}
+
+	public void setValues(double[][] values) {
+<span class="nc" id="L42">		this.data = values;</span>
+<span class="nc" id="L43">	}</span>
+
+	public void setValueAt(int row, int col, double value) {
+<span class="fc" id="L46">		data[row][col] = value;</span>
+<span class="fc" id="L47">	}</span>
+
+	public double getValueAt(int row, int col) {
+<span class="fc" id="L50">		return data[row][col];</span>
+	}
+
+	public boolean isSquare() {
+<span class="pc bpc" id="L54" title="1 of 2 branches missed.">		return nrows == ncols;</span>
+	}
+
+	public int size() {
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">		if (isSquare())</span>
+<span class="fc" id="L59">			return nrows;</span>
+<span class="nc" id="L60">		return -1;</span>
+	}
+
+	public Matrix multiplyByConstant(double constant) {
+<span class="fc" id="L64">		Matrix mat = new Matrix(nrows, ncols);</span>
+<span class="fc bfc" id="L65" title="All 2 branches covered.">		for (int i = 0; i &lt; nrows; i++) {</span>
+<span class="fc bfc" id="L66" title="All 2 branches covered.">			for (int j = 0; j &lt; ncols; j++) {</span>
+<span class="fc" id="L67">				mat.setValueAt(i, j, data[i][j] * constant);</span>
+			}
+		}
+<span class="fc" id="L70">		return mat;</span>
+	}
+	
+	
+	
+
+
+	
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.5.201910111838</span></div></body></html>
