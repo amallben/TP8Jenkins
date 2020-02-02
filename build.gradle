@@ -78,10 +78,5 @@ publishing {
 }
 generateMatrixAPI.finalizedBy publish
 
-slack {
-    webhookUrl 'https://hooks.slack.com/services/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'
-    message {
-        text = "Project is built newly and deployed"
-        channel = '#tpgradle'}
-}
-publish.finalizedBy publishToSlack
+
+publish
